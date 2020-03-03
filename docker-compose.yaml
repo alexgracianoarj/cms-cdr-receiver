@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+
+  cms-cdr-receiver-1:
+    build: .
+    image: cms-cdr-receiver:v1.0.0
+    restart: always
+    ports:
+    - "3000:3000"
+    networks:
+    - cms-network
+    depends_on:
+    - mongodb
+    container_name: cms-cdr-receiver-1
+
+  mongodb:
+    image: mongo:latest
+    restart: always
+    ports:
+    - "27017:27017"
+    volumes:
+    - "/data/db:/data/db"
+    networks:
+    - cms-network
+    container_name: mongodb
+
+networks:
+  cms-network:
+    driver: bridge
